@@ -1,6 +1,8 @@
 package com.nilscreation.yummyzone.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,8 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.nilscreation.yummyzone.DetailActivity;
 import com.nilscreation.yummyzone.Models.PopularModel;
 import com.nilscreation.yummyzone.R;
 
@@ -35,9 +39,24 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
+        PopularModel list = popularlist.get(position);
+
         holder.title.setText(popularlist.get(position).getTitle());
         holder.price.setText(popularlist.get(position).getPrice());
         holder.imageView.setImageResource(popularlist.get(position).getImage());
+
+        holder.cardBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, DetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("Title", list.getTitle());
+                bundle.putString("Price", list.getPrice());
+                bundle.putString("Description", list.getDescription());
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+            }
+        });
 
     }
 
@@ -50,12 +69,14 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHold
 
         ImageView imageView;
         TextView title, price;
+        CardView cardBack;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imageview);
             title = itemView.findViewById(R.id.title);
             price = itemView.findViewById(R.id.price);
+            cardBack = itemView.findViewById(R.id.cardBack);
         }
     }
 
