@@ -82,13 +82,13 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <EditText
+            <androidx.appcompat.widget.SearchView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:background="@drawable/custom_input"
-                android:fontFamily="@font/nunito_bold"
-                android:hint="Search Your Food" />
+                android:background="@drawable/custom_search"
+                android:focusable="false"
+                app:closeIcon="@drawable/ic_cancel" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -110,7 +110,7 @@
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/nunito_bold"
                 android:text="Categories"
-                android:textColor="@color/text_primary"
+                android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -127,7 +127,7 @@
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/nunito_bold"
                 android:text="Popular"
-                android:textColor="@color/text_primary"
+                android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -150,5 +150,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_menu" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/cartFab"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:src="@drawable/ic_cart"
+        app:elevation="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/scrollView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/white" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

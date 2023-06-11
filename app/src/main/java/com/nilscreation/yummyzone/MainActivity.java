@@ -4,8 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nilscreation.yummyzone.Adapters.CategoryAdapter;
 import com.nilscreation.yummyzone.Adapters.PopularAdapter;
 import com.nilscreation.yummyzone.Models.CategoryModel;
@@ -18,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerviewCategory, recyclerviewPopular;
     ArrayList<CategoryModel> categorylist;
     ArrayList<PopularModel> popularlist;
+    FloatingActionButton cartFab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +29,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         recyclerviewCategory = findViewById(R.id.recyclerviewCategory);
         recyclerviewPopular = findViewById(R.id.recyclerviewPopular);
+        cartFab = findViewById(R.id.cartFab);
+
+        cartFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, CartActivity.class);
+                startActivity(intent);
+            }
+        });
 
         recyclerviewCategory.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerviewPopular.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
