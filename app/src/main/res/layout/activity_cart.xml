@@ -68,9 +68,19 @@
                         android:text="Items Total:"
                         android:textColor="@color/text_primary"
                         android:textSize="18sp"
-                        android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_bold"
+                        android:text="₹ "
+                        android:textColor="@color/text_primary"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/itemTotalPrice"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
@@ -81,7 +91,6 @@
                         android:text="100"
                         android:textColor="@color/text_primary"
                         android:textSize="18sp"
-                        android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -100,9 +109,19 @@
                         android:text="Delivery Charges:"
                         android:textColor="@color/text_primary"
                         android:textSize="18sp"
-                        android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_bold"
+                        android:text="₹ "
+                        android:textColor="@color/text_primary"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/deliveryCharges"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
@@ -113,7 +132,6 @@
                         android:text="50"
                         android:textColor="@color/text_primary"
                         android:textSize="18sp"
-                        android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -127,15 +145,26 @@
                     app:layout_constraintTop_toBottomOf="@+id/recyclerviewCategory">
 
                     <TextView
+                        android:id="@+id/textView3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/nunito_bold"
                         android:text="Total:"
                         android:textColor="@color/text_primary"
                         android:textSize="25sp"
-                        android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_bold"
+                        android:text="₹ "
+                        android:textColor="@color/text_primary"
+                        android:textSize="25sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/totalCharges"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
@@ -146,7 +175,6 @@
                         android:text="150"
                         android:textColor="@color/text_primary"
                         android:textSize="25sp"
-                        android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />

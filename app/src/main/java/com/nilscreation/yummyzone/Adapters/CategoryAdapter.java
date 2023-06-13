@@ -1,6 +1,7 @@
 package com.nilscreation.yummyzone.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.nilscreation.yummyzone.FoodListActivity;
 import com.nilscreation.yummyzone.Models.CategoryModel;
 import com.nilscreation.yummyzone.R;
 
@@ -37,6 +39,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
+        CategoryModel category = categorylist.get(position);
+
         holder.categoryImg.setImageResource(categorylist.get(position).getImg());
         holder.categoryTitle.setText(categorylist.get(position).getTitle());
 
@@ -57,6 +61,16 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                 holder.categoryBack.setCardBackgroundColor(ContextCompat.getColor(context, R.color.cat5));
 
         }
+
+        holder.categoryBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, FoodListActivity.class);
+                intent.putExtra("category", category.getTitle());
+                context.startActivity(intent);
+
+            }
+        });
 
     }
 

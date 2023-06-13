@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "977793987885",
+    "project_id": "yummy-zone",
+    "storage_bucket": "yummy-zone.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:977793987885:android:f2575b59d33d6536354fa4",
+        "android_client_info": {
+          "package_name": "com.nilscreation.yummyzone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "977793987885-ust0aiv58nv0s4pcel0ji3iicj483aka.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjVbTw8ouAn52qYDxxeSzJW5KET4e8wJ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "977793987885-ust0aiv58nv0s4pcel0ji3iicj483aka.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
