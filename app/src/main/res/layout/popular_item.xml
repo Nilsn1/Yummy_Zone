@@ -17,7 +17,7 @@
         android:padding="10dp">
 
         <ImageView
-            android:id="@+id/imageview"
+            android:id="@+id/mimageview"
             android:layout_width="90dp"
             android:layout_height="90dp"
             android:layout_gravity="center"
@@ -25,7 +25,7 @@
             android:src="@drawable/pepperoni_pizza" />
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/mTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/nunito_bold"
@@ -52,7 +52,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/price"
+                android:id="@+id/mprice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito_bold"

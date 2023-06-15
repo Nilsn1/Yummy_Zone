@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -25,12 +27,15 @@ public class FoodListActivity extends AppCompatActivity {
     FoodAdapter adapter;
     DatabaseReference databaseReference;
 
+    TextView categoryTitle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_list);
 
         recyclerview = findViewById(R.id.recyclerviewFood);
+        categoryTitle = findViewById(R.id.categoryTitle);
         recyclerview.setLayoutManager(new LinearLayoutManager(this));
 
         foodlist = new ArrayList<>();
@@ -45,7 +50,14 @@ public class FoodListActivity extends AppCompatActivity {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     FoodModel foodModel = dataSnapshot.getValue(FoodModel.class);
 
-                    foodlist.add(foodModel);
+                    String category = foodModel.getCategory();
+
+                    Intent intent = getIntent();
+                    String Category = intent.getStringExtra("Category");
+                    categoryTitle.setText(Category);
+                    if (Category.equals(category)) {
+                        foodlist.add(foodModel);
+                    }
 
 //                    String title = foodModel.getTitle();
 //                    String description = foodModel.getDescription();

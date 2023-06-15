@@ -13,7 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.nilscreation.yummyzone.DetailActivity;
+import com.nilscreation.yummyzone.Models.FoodModel;
 import com.nilscreation.yummyzone.Models.PopularModel;
 import com.nilscreation.yummyzone.R;
 
@@ -21,13 +23,13 @@ import java.util.ArrayList;
 
 public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHolder> {
 
-    public PopularAdapter(Context context, ArrayList<PopularModel> popularlist) {
-        this.context = context;
-        this.popularlist = popularlist;
-    }
-
     Context context;
-    ArrayList<PopularModel> popularlist;
+    ArrayList<FoodModel> foodlist;
+
+    public PopularAdapter(Context context, ArrayList<FoodModel> foodlist) {
+        this.context = context;
+        this.foodlist = foodlist;
+    }
 
     @NonNull
     @Override
@@ -39,21 +41,22 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        PopularModel list = popularlist.get(position);
+        FoodModel food = foodlist.get(position);
 
-        holder.title.setText(popularlist.get(position).getTitle());
-        holder.price.setText(popularlist.get(position).getPrice());
-        holder.imageView.setImageResource(popularlist.get(position).getImage());
+        holder.title.setText(food.getTitle());
+        holder.price.setText(String.valueOf(food.getPrice()));
+        Glide.with(context).load(food.getImageUrl()).into(holder.imageView);
 
         holder.cardBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, DetailActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("Title", list.getTitle());
-                bundle.putString("Price", list.getPrice());
-                bundle.putString("Description", list.getDescription());
-                intent.putExtras(bundle);
+                intent.putExtra("Category", food.getCategory());
+                intent.putExtra("Title", food.getTitle());
+                intent.putExtra("Description", food.getDescription());
+                intent.putExtra("Price", food.getPrice());
+                intent.putExtra("ImageUrl", food.getImageUrl());
+                intent.putExtra("Delivery", food.getDeliveryCharges());
                 context.startActivity(intent);
             }
         });
@@ -62,7 +65,7 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return popularlist.size();
+        return foodlist.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -73,9 +76,9 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHold
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.imageview);
-            title = itemView.findViewById(R.id.title);
-            price = itemView.findViewById(R.id.price);
+            imageView = itemView.findViewById(R.id.mimageview);
+            title = itemView.findViewById(R.id.mTitle);
+            price = itemView.findViewById(R.id.mprice);
             cardBack = itemView.findViewById(R.id.cardBack);
         }
     }
