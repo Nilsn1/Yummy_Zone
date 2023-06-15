@@ -37,7 +37,7 @@ public class FoodListActivity extends AppCompatActivity {
         adapter = new FoodAdapter(this, foodlist);
         recyclerview.setAdapter(adapter);
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("FoodDB");
+        databaseReference = FirebaseDatabase.getInstance().getReference("Food DB");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

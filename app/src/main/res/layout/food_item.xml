@@ -25,10 +25,10 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/nunito_bold"
-        android:gravity="center"
         android:text="Cheese Pizza"
         android:textColor="@color/text_primary"
         android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/productImg"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,7 +39,6 @@
         android:layout_marginStart="10dp"
         android:ellipsize="end"
         android:fontFamily="@font/nunito_bold"
-        android:gravity="center"
         android:maxLines="1"
         android:text="Pure Cheese Pizza Pure Cheese Pizza Pure Cheese Pizza"
         android:textColor="@color/text_primary"
@@ -66,7 +65,8 @@
             android:fontFamily="@font/nunito_bold"
             android:text="₹ "
             android:textColor="@color/primary"
-            android:textSize="20sp" />
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/productprice"
@@ -75,7 +75,8 @@
             android:fontFamily="@font/nunito_bold"
             android:text="200"
             android:textColor="@color/primary"
-            android:textSize="20sp" />
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 

@@ -1,5 +1,6 @@
 package com.nilscreation.yummyzone;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -7,8 +8,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.FirebaseError;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.nilscreation.yummyzone.Adapters.CategoryAdapter;
 import com.nilscreation.yummyzone.Adapters.PopularAdapter;
 import com.nilscreation.yummyzone.Models.CategoryModel;
@@ -22,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<CategoryModel> categorylist;
     ArrayList<PopularModel> popularlist;
     FloatingActionButton cartFab;
+    TextView wlcm;
+    FirebaseAuth auth = FirebaseAuth.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerviewCategory = findViewById(R.id.recyclerviewCategory);
         recyclerviewPopular = findViewById(R.id.recyclerviewPopular);
         cartFab = findViewById(R.id.cartFab);
+        wlcm = findViewById(R.id.wlcm);
 
         cartFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,6 +51,25 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        FirebaseUser firebaseUser = auth.getCurrentUser();
+        if (firebaseUser != null) {
+
+            String userId = firebaseUser.getUid();
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("User DB");
+            databaseReference.child(userId).child("username").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    String value = snapshot.getValue(String.class);
+                    wlcm.setText("Hello, " + value + "!");
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
 
         recyclerviewCategory.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerviewPopular.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
