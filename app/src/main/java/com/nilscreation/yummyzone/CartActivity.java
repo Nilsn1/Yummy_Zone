@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -21,15 +22,19 @@ import java.util.ArrayList;
 
 public class CartActivity extends AppCompatActivity {
 
+    TextView itemTotalPrice;
     RecyclerView recyclerviewCart;
     ArrayList<FoodModel> cartlist;
     CartAdapter cartAdapter;
     FirebaseAuth auth = FirebaseAuth.getInstance();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
+
+        itemTotalPrice = findViewById(R.id.itemTotalPrice);
 
         recyclerviewCart = findViewById(R.id.recyclerviewCart);
         recyclerviewCart.setLayoutManager(new LinearLayoutManager(this));
@@ -60,7 +65,5 @@ public class CartActivity extends AppCompatActivity {
                 }
             });
         }
-
-
     }
 }

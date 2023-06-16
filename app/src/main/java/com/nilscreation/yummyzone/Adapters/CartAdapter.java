@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.nilscreation.yummyzone.CartActivity;
 import com.nilscreation.yummyzone.Models.FoodModel;
 import com.nilscreation.yummyzone.R;
 
@@ -38,6 +39,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         FoodModel food = cartlist.get(position);
+        calculateTotalPrice();
 
 //        mqty = Integer.parseInt(holder.cartQty.getText().toString());
 
@@ -52,8 +54,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 mqty = Integer.parseInt(holder.cartQty.getText().toString()) + 1;
                 holder.cartQty.setText(String.valueOf(mqty));
 
+                food.setQty(mqty);
+
                 mfinalPrice = mqty * food.getPrice();
                 holder.cartfoodPrice.setText(String.valueOf(mfinalPrice));
+                calculateTotalPrice();
             }
         });
 
@@ -64,8 +69,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                     mqty = Integer.parseInt(holder.cartQty.getText().toString()) - 1;
                     holder.cartQty.setText(String.valueOf(mqty));
 
+                    food.setQty(mqty);
+
                     mfinalPrice = mqty * food.getPrice();
                     holder.cartfoodPrice.setText(String.valueOf(mfinalPrice));
+                    calculateTotalPrice();
                 }
             }
         });
@@ -90,5 +98,15 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             cartQty = itemView.findViewById(R.id.cartQty);
             cartfoodPrice = itemView.findViewById(R.id.cartfoodPrice);
         }
+    }
+
+    private void calculateTotalPrice() {
+        int totalPrice = 0;
+        for (FoodModel product : cartlist) {
+            totalPrice += product.getPrice() * product.getQty();
+        }
+        // Do something with the total price (e.g., update a TextView)
+        Toast.makeText(context, "" + totalPrice, Toast.LENGTH_SHORT).show();
+
     }
 }
