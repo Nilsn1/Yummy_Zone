@@ -29,7 +29,7 @@ public class DetailActivity extends AppCompatActivity {
     Button cartBtn;
     ImageView plusBtn, minusBtn, productImg;
 
-    String mCategory, mtitle, mdescription, mimageUrl;
+    String mCategory, mtitle, mdescription, mimageUrl, mstatus;
     int qtyNumber = 1;
     int mprice, mdeliveryCharges, finalprice, orderId;
 
@@ -89,14 +89,14 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                orderId = (int) System.currentTimeMillis();
-                FoodModel foodModel = new FoodModel(orderId, mtitle, mCategory, mimageUrl, mprice, mdeliveryCharges, qtyNumber);
+//                orderId = (int) System.currentTimeMillis();
+                FoodModel foodModel = new FoodModel(mtitle, mCategory, mimageUrl, mprice, finalprice, mdeliveryCharges, qtyNumber);
 
                 FirebaseUser firebaseUser = auth.getCurrentUser();
                 if (firebaseUser != null) {
                     String userId = firebaseUser.getUid();
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("User DB");
-                    databaseReference.child(userId).child("Order Details").child(String.valueOf(orderId)).setValue(foodModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    databaseReference.child(userId).child("Order Details").child("Cart").child(mtitle).setValue(foodModel).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
