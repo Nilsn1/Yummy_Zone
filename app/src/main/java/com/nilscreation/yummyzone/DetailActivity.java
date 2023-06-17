@@ -29,10 +29,9 @@ public class DetailActivity extends AppCompatActivity {
     Button cartBtn;
     ImageView plusBtn, minusBtn, productImg;
 
-    String mCategory, mtitle, mdescription, mimageUrl, mstatus;
+    String mCategory, mtitle, mdescription, mimageUrl;
     int qtyNumber = 1;
-    int mprice, mdeliveryCharges, finalprice, orderId;
-
+    int mprice, mdeliveryCharges, finalprice;
     FirebaseAuth auth = FirebaseAuth.getInstance();
 
     @Override
@@ -88,6 +87,8 @@ public class DetailActivity extends AppCompatActivity {
         cartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                finalprice = mprice * qtyNumber;
 
 //                orderId = (int) System.currentTimeMillis();
                 FoodModel foodModel = new FoodModel(mtitle, mCategory, mimageUrl, mprice, finalprice, mdeliveryCharges, qtyNumber);

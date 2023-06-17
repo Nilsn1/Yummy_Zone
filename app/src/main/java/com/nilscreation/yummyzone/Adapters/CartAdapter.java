@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -21,11 +22,14 @@ import java.util.ArrayList;
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     Context context;
     ArrayList<FoodModel> cartlist;
-    int mqty, mfinalPrice;
 
-    public CartAdapter(Context context, ArrayList<FoodModel> cartlist) {
+    FragmentActivity activity;
+    int mqty, mfinalPrice, mdeliveryCharges;
+
+    public CartAdapter(Context context, ArrayList<FoodModel> cartlist, FragmentActivity activity) {
         this.context = context;
         this.cartlist = cartlist;
+        this.activity = activity;
     }
 
     @NonNull
@@ -40,6 +44,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
         FoodModel food = cartlist.get(position);
         calculateTotalPrice();
+        mdeliveryCharges = food.getDeliveryCharges();
 
 //        mqty = Integer.parseInt(holder.cartQty.getText().toString());
 
@@ -105,8 +110,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         for (FoodModel product : cartlist) {
             totalPrice += product.getPrice() * product.getQty();
         }
-        // Do something with the total price (e.g., update a TextView)
-        Toast.makeText(context, "" + totalPrice, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(context, "" + totalPrice, Toast.LENGTH_SHORT).show();
+
+        CartActivity cartActivity = (CartActivity) activity;
+        cartActivity.totalPrice(totalPrice, mdeliveryCharges);
 
     }
 }

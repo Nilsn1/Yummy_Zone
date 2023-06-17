@@ -2,6 +2,8 @@ package com.nilscreation.yummyzone;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,11 +24,11 @@ import java.util.ArrayList;
 
 public class CartActivity extends AppCompatActivity {
 
-    TextView itemTotalPrice;
-    RecyclerView recyclerviewCart;
-    ArrayList<FoodModel> cartlist;
-    CartAdapter cartAdapter;
-    FirebaseAuth auth = FirebaseAuth.getInstance();
+    TextView itemTotalPrice, deliveryCharges, totalCharges;
+//    RecyclerView recyclerviewCart;
+//    ArrayList<FoodModel> cartlist;
+//    CartAdapter cartAdapter;
+//    FirebaseAuth auth = FirebaseAuth.getInstance();
 
 
     @Override
@@ -35,35 +37,51 @@ public class CartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cart);
 
         itemTotalPrice = findViewById(R.id.itemTotalPrice);
+        deliveryCharges = findViewById(R.id.deliveryCharges);
+        totalCharges = findViewById(R.id.totalCharges);
 
-        recyclerviewCart = findViewById(R.id.recyclerviewCart);
-        recyclerviewCart.setLayoutManager(new LinearLayoutManager(this));
-        cartlist = new ArrayList<>();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        CartFragment cartFragment = new CartFragment();
+        fragmentTransaction.add(R.id.container, cartFragment);
+        fragmentTransaction.commit();
 
-        cartAdapter = new CartAdapter(CartActivity.this, cartlist);
-        recyclerviewCart.setAdapter(cartAdapter);
+//        recyclerviewCart = findViewById(R.id.recyclerviewCart);
+//        recyclerviewCart.setLayoutManager(new LinearLayoutManager(this));
+//        cartlist = new ArrayList<>();
+//
+//        cartAdapter = new CartAdapter(CartActivity.this, cartlist);
+//        recyclerviewCart.setAdapter(cartAdapter);
+//
+//        FirebaseUser firebaseUser = auth.getCurrentUser();
+//        if (firebaseUser != null) {
+//            String userId = firebaseUser.getUid();
+//            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("User DB");
+//            databaseReference.child(userId).child("Order Details").child("Cart").addValueEventListener(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                    cartlist.clear();
+//                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+//                        FoodModel model = dataSnapshot.getValue(FoodModel.class);
+//                        cartlist.add(model);
+//                    }
+//                    cartAdapter.notifyDataSetChanged();
+//
+//                }
+//
+//                @Override
+//                public void onCancelled(@NonNull DatabaseError error) {
+//
+//                }
+//            });
+//        }
+    }
 
-        FirebaseUser firebaseUser = auth.getCurrentUser();
-        if (firebaseUser != null) {
-            String userId = firebaseUser.getUid();
-            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("User DB");
-            databaseReference.child(userId).child("Order Details").child("Cart").addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    cartlist.clear();
-                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                        FoodModel model = dataSnapshot.getValue(FoodModel.class);
-                        cartlist.add(model);
-                    }
-                    cartAdapter.notifyDataSetChanged();
+    public void totalPrice(int mItemTotalPrice, int mdeliveryCharges) {
 
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-        }
+        itemTotalPrice.setText(String.valueOf(mItemTotalPrice));
+        deliveryCharges.setText(String.valueOf(mdeliveryCharges));
+        int mTotalCharges = mItemTotalPrice + mdeliveryCharges;
+        totalCharges.setText(String.valueOf(mTotalCharges));
     }
 }
