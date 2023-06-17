@@ -24,7 +24,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     ArrayList<FoodModel> cartlist;
 
     FragmentActivity activity;
-    int mqty, mfinalPrice, mdeliveryCharges;
+    int mqty, mfinalPrice;
 
     public CartAdapter(Context context, ArrayList<FoodModel> cartlist, FragmentActivity activity) {
         this.context = context;
@@ -44,7 +44,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
         FoodModel food = cartlist.get(position);
         calculateTotalPrice();
-        mdeliveryCharges = food.getDeliveryCharges();
 
 //        mqty = Integer.parseInt(holder.cartQty.getText().toString());
 
@@ -107,8 +106,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     private void calculateTotalPrice() {
         int totalPrice = 0;
+        int mdeliveryCharges = 0;
         for (FoodModel product : cartlist) {
             totalPrice += product.getPrice() * product.getQty();
+            mdeliveryCharges = product.getDeliveryCharges();
         }
 //        Toast.makeText(context, "" + totalPrice, Toast.LENGTH_SHORT).show();
 
