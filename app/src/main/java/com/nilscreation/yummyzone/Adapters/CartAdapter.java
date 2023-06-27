@@ -22,14 +22,18 @@ import java.util.ArrayList;
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     Context context;
     ArrayList<FoodModel> cartlist;
-
-    FragmentActivity activity;
     int mqty, mfinalPrice;
 
-    public CartAdapter(Context context, ArrayList<FoodModel> cartlist, FragmentActivity activity) {
+    public CartAdapter(Context context, ArrayList<FoodModel> cartlist) {
         this.context = context;
         this.cartlist = cartlist;
-        this.activity = activity;
+    }
+
+    public void sendDataToActivity(ArrayList<FoodModel> dataList) {
+        if (context instanceof CartActivity) {
+            CartActivity activity = (CartActivity) context;
+            activity.receiveDataFromAdapter(dataList);
+        }
     }
 
     @NonNull
@@ -43,14 +47,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         FoodModel food = cartlist.get(position);
-        calculateTotalPrice();
-
-//        mqty = Integer.parseInt(holder.cartQty.getText().toString());
 
         Glide.with(context).load(food.getImageUrl()).into(holder.cartImg);
         holder.cartTitle.setText(food.getTitle());
         holder.cartQty.setText(String.valueOf(food.getQty()));
         holder.cartfoodPrice.setText(String.valueOf(food.getFinalPrice()));
+        holder.singlePrice.setText(String.valueOf(food.getPrice()));
+
+        sendDataToActivity(cartlist);
 
         holder.plusBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,7 +66,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
                 mfinalPrice = mqty * food.getPrice();
                 holder.cartfoodPrice.setText(String.valueOf(mfinalPrice));
-                calculateTotalPrice();
+//                calculateTotalPrice();
+                sendDataToActivity(cartlist);
             }
         });
 
@@ -77,7 +82,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
                     mfinalPrice = mqty * food.getPrice();
                     holder.cartfoodPrice.setText(String.valueOf(mfinalPrice));
-                    calculateTotalPrice();
+//                    calculateTotalPrice();
+                    sendDataToActivity(cartlist);
                 }
             }
         });
@@ -91,7 +97,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView cartImg, plusBtn, minusBtn;
-        TextView cartTitle, cartQty, cartfoodPrice;
+        TextView cartTitle, cartQty, singlePrice, cartfoodPrice;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -100,21 +106,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             minusBtn = itemView.findViewById(R.id.minusBtn);
             cartTitle = itemView.findViewById(R.id.cartfoodTitle);
             cartQty = itemView.findViewById(R.id.cartQty);
+            singlePrice = itemView.findViewById(R.id.singlePrice);
             cartfoodPrice = itemView.findViewById(R.id.cartfoodPrice);
         }
-    }
-
-    private void calculateTotalPrice() {
-        int totalPrice = 0;
-        int mdeliveryCharges = 0;
-        for (FoodModel product : cartlist) {
-            totalPrice += product.getPrice() * product.getQty();
-            mdeliveryCharges = product.getDeliveryCharges();
-        }
-//        Toast.makeText(context, "" + totalPrice, Toast.LENGTH_SHORT).show();
-
-        CartActivity cartActivity = (CartActivity) activity;
-        cartActivity.totalPrice(totalPrice, mdeliveryCharges);
-
     }
 }

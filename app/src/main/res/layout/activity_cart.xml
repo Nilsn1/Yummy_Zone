@@ -30,23 +30,23 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!--    <androidx.recyclerview.widget.RecyclerView-->
-    <!--        android:id="@+id/recyclerviewCart"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        android:layout_above="@id/cartlayout"-->
-    <!--        android:layout_marginHorizontal="20dp"-->
-    <!--        android:layout_marginTop="?attr/actionBarSize"-->
-    <!--        tools:listitem="@layout/cart_item" />-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerviewCart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/cartlayout"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="?attr/actionBarSize"
+            tools:listitem="@layout/cart_item" />
 
-    <FrameLayout
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/cartlayout"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="?attr/actionBarSize"
-        tools:listitem="@layout/cart_item" />
+<!--    <FrameLayout-->
+<!--        android:id="@+id/container"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_above="@id/cartlayout"-->
+<!--        android:layout_marginHorizontal="20dp"-->
+<!--        android:layout_marginTop="?attr/actionBarSize"-->
+<!--        tools:listitem="@layout/cart_item" />-->
 
     <LinearLayout
         android:id="@+id/cartlayout"
@@ -190,7 +190,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/cartBtn"
+            android:id="@+id/checkout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="15dp"

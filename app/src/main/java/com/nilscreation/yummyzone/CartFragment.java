@@ -40,35 +40,35 @@ public class CartFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
 
-        recyclerviewCart = view.findViewById(R.id.recyclerviewCart);
-        recyclerviewCart.setLayoutManager(new LinearLayoutManager(getContext()));
-        cartlist = new ArrayList<>();
-
-        cartAdapter = new CartAdapter(getContext(), cartlist,getActivity());
-        recyclerviewCart.setAdapter(cartAdapter);
-
-        FirebaseUser firebaseUser = auth.getCurrentUser();
-        if (firebaseUser != null) {
-            String userId = firebaseUser.getUid();
-            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("User DB");
-            databaseReference.child(userId).child("Order Details").child("Cart").addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    cartlist.clear();
-                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                        FoodModel model = dataSnapshot.getValue(FoodModel.class);
-                        cartlist.add(model);
-                    }
-                    cartAdapter.notifyDataSetChanged();
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-        }
+//        recyclerviewCart = view.findViewById(R.id.recyclerviewCart);
+//        recyclerviewCart.setLayoutManager(new LinearLayoutManager(getContext()));
+//        cartlist = new ArrayList<>();
+//
+//        cartAdapter = new CartAdapter(getContext(), cartlist,getActivity());
+//        recyclerviewCart.setAdapter(cartAdapter);
+//
+//        FirebaseUser firebaseUser = auth.getCurrentUser();
+//        if (firebaseUser != null) {
+//            String userId = firebaseUser.getUid();
+//            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("User DB");
+//            databaseReference.child(userId).child("Order Details").child("Cart").addValueEventListener(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                    cartlist.clear();
+//                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+//                        FoodModel model = dataSnapshot.getValue(FoodModel.class);
+//                        cartlist.add(model);
+//                    }
+//                    cartAdapter.notifyDataSetChanged();
+//
+//                }
+//
+//                @Override
+//                public void onCancelled(@NonNull DatabaseError error) {
+//
+//                }
+//            });
+//        }
 
         return view;
     }

@@ -19,6 +19,14 @@ public class FoodModel {
         this.Qty = qtyNumber;
     }
 
+    public FoodModel(String Title, String ImageUrl, int Price, int DeliveryCharges, int Qty) {
+        this.Title = Title;
+        this.ImageUrl = ImageUrl;
+        this.Price = Price;
+        this.DeliveryCharges = DeliveryCharges;
+        this.Qty = Qty;
+    }
+
     public String getCategory() {
         return Category;
     }
