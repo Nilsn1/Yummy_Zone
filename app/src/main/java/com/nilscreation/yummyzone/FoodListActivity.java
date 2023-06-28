@@ -57,13 +57,9 @@ public class FoodListActivity extends AppCompatActivity {
                     categoryTitle.setText(Category);
                     if (Category.equals(category)) {
                         foodlist.add(foodModel);
+                    } else if (Category.isEmpty()) {
+                        foodlist.add(foodModel);
                     }
-
-//                    String title = foodModel.getTitle();
-//                    String description = foodModel.getDescription();
-//                    int price = foodModel.getPrice();
-//                    Toast.makeText(FoodListActivity.this, "" + price, Toast.LENGTH_SHORT).show();
-//                    foodlist.add(new FoodModel(title, description, price));
                 }
                 adapter.notifyDataSetChanged();
             }

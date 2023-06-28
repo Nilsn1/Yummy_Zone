@@ -12,4 +12,8 @@
     <style name="bottomNavigation">
         <item name="fontFamily">@font/nunito_bold</item>
     </style>
+
+    <style name="custom_search">
+        <item name="fontFamily">@font/nunito_bold</item>
+    </style>
 </resources>

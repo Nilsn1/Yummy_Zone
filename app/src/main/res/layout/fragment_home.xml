@@ -82,12 +82,17 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.appcompat.widget.SearchView
+                android:id="@+id/searchView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:background="@drawable/custom_search"
                 android:focusable="false"
-                app:closeIcon="@drawable/ic_cancel" />
+                app:closeIcon="@drawable/ic_cancel"
+                app:iconifiedByDefault="false"
+                app:queryBackground="@android:color/transparent"
+                app:queryHint="Search..."
+                app:searchHintIcon="@null" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"

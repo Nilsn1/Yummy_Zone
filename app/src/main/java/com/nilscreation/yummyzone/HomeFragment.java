@@ -52,7 +52,6 @@ public class HomeFragment extends Fragment {
         wlcm = view.findViewById(R.id.wlcm);
 
 
-
         FirebaseUser firebaseUser = auth.getCurrentUser();
         if (firebaseUser != null) {
 
@@ -86,10 +85,6 @@ public class HomeFragment extends Fragment {
         recyclerviewCategory.setAdapter(categoryAdapter);
 
         popularlist = new ArrayList<>();
-//        popularlist.add(new PopularModel("Pepperoni Pizza", R.drawable.pepperoni_pizza, "100", "A classic medley of zesty pepperoni and gooey cheese, harmonizing atop a crispy pizza crust."));
-//        popularlist.add(new PopularModel("Cheese Burger", R.drawable.cheese_burger, "150", "Juicy beef patty nestled in melted cheese, embraced by a soft bun."));
-//        popularlist.add(new PopularModel("Meat Pizza", R.drawable.meat_pizza, "250", "A carnivore's delight, the meat pizza boasts a savory symphony of hearty toppings, satisfying cravings with each mouthwatering slice."));
-//        popularlist.add(new PopularModel("Spicy Hot Dog", R.drawable.hotdog, "120", "Fiery and flavorful, the spicy hot dog ignites taste buds with its tantalizing heat, delivering a sizzling kick in every bite."));
 
         popularAdapter = new PopularAdapter(getContext(), popularlist);
         recyclerviewPopular.setAdapter(popularAdapter);
