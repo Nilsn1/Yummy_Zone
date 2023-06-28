@@ -2,16 +2,22 @@ package com.nilscreation.yummyzone;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.FirebaseError;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -30,23 +36,19 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    RecyclerView recyclerviewCategory, recyclerviewPopular;
-    ArrayList<CategoryModel> categorylist;
-    ArrayList<FoodModel> popularlist;
     FloatingActionButton cartFab;
-    TextView wlcm;
-    FirebaseAuth auth = FirebaseAuth.getInstance();
 
-    PopularAdapter popularAdapter;
+    BottomNavigationView bottomNavigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        recyclerviewCategory = findViewById(R.id.recyclerviewCategory);
-        recyclerviewPopular = findViewById(R.id.recyclerviewPopular);
+
         cartFab = findViewById(R.id.cartFab);
-        wlcm = findViewById(R.id.wlcm);
+        bottomNavigation = findViewById(R.id.bottomNavigation);
+
+        loadFragment(new HomeFragment());
 
         cartFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,63 +58,33 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        FirebaseUser firebaseUser = auth.getCurrentUser();
-        if (firebaseUser != null) {
-
-            String userId = firebaseUser.getUid();
-            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("User DB");
-            databaseReference.child(userId).child("User Details").child("username").addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    String value = snapshot.getValue(String.class);
-                    wlcm.setText("Hello, " + value + "!");
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-        }
-
-        recyclerviewCategory.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        recyclerviewPopular.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-
-        categorylist = new ArrayList<>();
-        categorylist.add(new CategoryModel(R.drawable.cat_pizza, "Pizza"));
-        categorylist.add(new CategoryModel(R.drawable.cat_burger, "Burger"));
-        categorylist.add(new CategoryModel(R.drawable.cat_hotdog, "Hotdog"));
-        categorylist.add(new CategoryModel(R.drawable.cat_donut, "Donut"));
-        categorylist.add(new CategoryModel(R.drawable.cat_biryani, "Biryani"));
-
-        CategoryAdapter categoryAdapter = new CategoryAdapter(categorylist, this);
-        recyclerviewCategory.setAdapter(categoryAdapter);
-
-        popularlist = new ArrayList<>();
-//        popularlist.add(new PopularModel("Pepperoni Pizza", R.drawable.pepperoni_pizza, "100", "A classic medley of zesty pepperoni and gooey cheese, harmonizing atop a crispy pizza crust."));
-//        popularlist.add(new PopularModel("Cheese Burger", R.drawable.cheese_burger, "150", "Juicy beef patty nestled in melted cheese, embraced by a soft bun."));
-//        popularlist.add(new PopularModel("Meat Pizza", R.drawable.meat_pizza, "250", "A carnivore's delight, the meat pizza boasts a savory symphony of hearty toppings, satisfying cravings with each mouthwatering slice."));
-//        popularlist.add(new PopularModel("Spicy Hot Dog", R.drawable.hotdog, "120", "Fiery and flavorful, the spicy hot dog ignites taste buds with its tantalizing heat, delivering a sizzling kick in every bite."));
-
-        popularAdapter = new PopularAdapter(this, popularlist);
-        recyclerviewPopular.setAdapter(popularAdapter);
-
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Popular Food");
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                popularlist.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    FoodModel model = dataSnapshot.getValue(FoodModel.class);
-                    popularlist.add(model);
-                }
-                popularAdapter.notifyDataSetChanged();
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
+                int id = item.getItemId();
+
+                if (id == R.id.home) {
+
+                    loadFragment(new HomeFragment());
+
+                } else if (id == R.id.orders) {
+
+                    loadFragment(new OrdersFragment());
+
+                } else {
+                    loadFragment(new AccountFragment());
+                }
+                return true;
             }
         });
+    }
 
+    private void loadFragment(Fragment fragment) {
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container, fragment);
+        fragmentTransaction.commit();
     }
 }

@@ -10,7 +10,12 @@
     <item
         android:id="@+id/orders"
         android:icon="@drawable/ic_order"
-        android:title="Orders" />
+        android:title="My Orders" />
+
+<!--    <item-->
+<!--        android:id="@+id/feedback"-->
+<!--        android:icon="@drawable/ic_contact"-->
+<!--        android:title="Feedback" />-->
 
     <item
         android:id="@+id/account"
