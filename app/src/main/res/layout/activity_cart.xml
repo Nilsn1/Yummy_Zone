@@ -39,15 +39,6 @@
         android:layout_marginTop="?attr/actionBarSize"
         tools:listitem="@layout/cart_item" />
 
-    <!--    <FrameLayout-->
-    <!--        android:id="@+id/container"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        android:layout_above="@id/cartlayout"-->
-    <!--        android:layout_marginHorizontal="20dp"-->
-    <!--        android:layout_marginTop="?attr/actionBarSize"-->
-    <!--        tools:listitem="@layout/cart_item" />-->
-
     <LinearLayout
         android:id="@+id/cartlayout"
         android:layout_width="match_parent"

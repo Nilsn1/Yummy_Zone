@@ -25,12 +25,14 @@ import com.nilscreation.yummyzone.Adapters.CartAdapter;
 import com.nilscreation.yummyzone.Models.FoodModel;
 import com.nilscreation.yummyzone.Models.OrderDetails;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class CartActivity extends AppCompatActivity {
 
     TextView itemTotalPrice, deliveryCharges, totalCharges, txtAddress;
-
     ImageView btnAddress;
     RecyclerView recyclerviewCart;
     ArrayList<FoodModel> cartlist;
@@ -101,6 +103,11 @@ public class CartActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                String address = txtAddress.getText().toString();
+
+                DateFormat df = new SimpleDateFormat("dd/MM/yyyy, HH:mm");
+                String date = df.format(Calendar.getInstance().getTime());
+
                 if (txtAddress.getText().toString().isEmpty()) {
                     txtAddress.setError("Address Cannot be empty");
                 } else {
@@ -122,7 +129,7 @@ public class CartActivity extends AppCompatActivity {
 
                         foodModel = new FoodModel(mtitle, mimageUrl, mprice, mdeliveryCharges, qtyNumber);
 
-                        OrderDetails orderDetails = new OrderDetails(orderId, totalPrice, mdeliveryCharges, orderPrice);
+                        OrderDetails orderDetails = new OrderDetails(orderId, totalPrice, mdeliveryCharges, orderPrice, address, date);
 
                         FirebaseUser firebaseUser = auth.getCurrentUser();
                         if (firebaseUser != null) {
@@ -137,7 +144,6 @@ public class CartActivity extends AppCompatActivity {
                                         DatabaseReference deleteCart = FirebaseDatabase.getInstance().getReference("User DB");
                                         deleteCart.child(userId).child("Order Details").child("Cart").removeValue();
 
-
                                     } else {
                                         Toast.makeText(CartActivity.this, " " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                     }
@@ -145,7 +151,7 @@ public class CartActivity extends AppCompatActivity {
                             });
 
                             DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference("User DB");
-                            databaseReference2.child(userId).child("Order Details").child("Completed").child(orderId).child("Bill Details").setValue(orderDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            databaseReference2.child(userId).child("Order Details").child("Completed").child(orderId).setValue(orderDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {

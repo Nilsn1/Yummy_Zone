@@ -5,11 +5,42 @@ public class OrderDetails {
     int ItemsTotal, OrderPrice, DeliveryCharges;
     String OrderId;
 
+    String Address, Time;
+
+    public OrderDetails() {
+
+    }
+
     public OrderDetails(String OrderId, int itemsTotal, int deliveryCharges, int orderPrice) {
         ItemsTotal = itemsTotal;
         OrderPrice = orderPrice;
         DeliveryCharges = deliveryCharges;
         this.OrderId = OrderId;
+    }
+
+    public OrderDetails(String orderId, int itemsTotal, int deliveryCharges, int orderPrice, String address, String time) {
+        ItemsTotal = itemsTotal;
+        OrderPrice = orderPrice;
+        DeliveryCharges = deliveryCharges;
+        OrderId = orderId;
+        Address = address;
+        Time = time;
+    }
+
+    public String getAddress() {
+        return Address;
+    }
+
+    public void setAddress(String address) {
+        Address = address;
+    }
+
+    public String getTime() {
+        return Time;
+    }
+
+    public void setTime(String time) {
+        Time = time;
     }
 
     public String getOrderId() {
