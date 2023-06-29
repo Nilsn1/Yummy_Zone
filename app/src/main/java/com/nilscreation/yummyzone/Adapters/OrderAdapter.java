@@ -37,6 +37,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         OrderDetails order = orderlist.get(position);
         holder.orderId.setText(order.getOrderId());
         holder.orderPrice.setText(String.valueOf(order.getOrderPrice()));
+        holder.orderTime.setText(order.getTime());
 
     }
 
@@ -47,14 +48,14 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView orderId, orderPrice, btnView;
+        TextView orderId, orderPrice, orderTime;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             orderId = itemView.findViewById(R.id.orderId);
             orderPrice = itemView.findViewById(R.id.orderPrice);
-            btnView = itemView.findViewById(R.id.btnView);
+            orderTime = itemView.findViewById(R.id.orderTime);
         }
     }
 }

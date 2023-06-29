@@ -1,30 +1,35 @@
 package com.nilscreation.yummyzone.Models;
 
+import java.util.ArrayList;
+
 public class OrderDetails {
 
     int ItemsTotal, OrderPrice, DeliveryCharges;
     String OrderId;
-
     String Address, Time;
+
+    private ArrayList<FoodModel> products;
 
     public OrderDetails() {
 
     }
 
-    public OrderDetails(String OrderId, int itemsTotal, int deliveryCharges, int orderPrice) {
+    public OrderDetails(String OrderId, int itemsTotal, int deliveryCharges, int orderPrice, String address, String time, ArrayList<FoodModel> products) {
         ItemsTotal = itemsTotal;
         OrderPrice = orderPrice;
         DeliveryCharges = deliveryCharges;
         this.OrderId = OrderId;
-    }
-
-    public OrderDetails(String orderId, int itemsTotal, int deliveryCharges, int orderPrice, String address, String time) {
-        ItemsTotal = itemsTotal;
-        OrderPrice = orderPrice;
-        DeliveryCharges = deliveryCharges;
-        OrderId = orderId;
         Address = address;
         Time = time;
+        this.products = products;
+    }
+
+    public ArrayList<FoodModel> getProducts() {
+        return products;
+    }
+
+    public void setProducts(ArrayList<FoodModel> products) {
+        this.products = products;
     }
 
     public String getAddress() {

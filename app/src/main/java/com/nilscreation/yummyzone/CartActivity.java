@@ -40,7 +40,6 @@ public class CartActivity extends AppCompatActivity {
     FirebaseAuth auth = FirebaseAuth.getInstance();
     Button checkout;
     ArrayList<FoodModel> dataList;
-
     String mtitle, mimageUrl;
     int mprice, mdeliveryCharges, qtyNumber;
 
@@ -55,12 +54,6 @@ public class CartActivity extends AppCompatActivity {
         checkout = findViewById(R.id.checkout);
         txtAddress = findViewById(R.id.txtAddress);
         btnAddress = findViewById(R.id.btnAddress);
-
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        CartFragment cartFragment = new CartFragment();
-//        fragmentTransaction.add(R.id.container, cartFragment);
-//        fragmentTransaction.commit();
 
         recyclerviewCart = findViewById(R.id.recyclerviewCart);
         recyclerviewCart.setLayoutManager(new LinearLayoutManager(this));
@@ -127,15 +120,31 @@ public class CartActivity extends AppCompatActivity {
                         mdeliveryCharges = product.getDeliveryCharges();
                         orderPrice = totalPrice + mdeliveryCharges;
 
-                        foodModel = new FoodModel(mtitle, mimageUrl, mprice, mdeliveryCharges, qtyNumber);
+//                        foodModel = new FoodModel(mtitle, mimageUrl, mprice, mdeliveryCharges, qtyNumber);
 
-                        OrderDetails orderDetails = new OrderDetails(orderId, totalPrice, mdeliveryCharges, orderPrice, address, date);
+                        OrderDetails orderDetails = new OrderDetails(orderId, totalPrice, mdeliveryCharges, orderPrice, address, date, dataList);
 
                         FirebaseUser firebaseUser = auth.getCurrentUser();
                         if (firebaseUser != null) {
                             String userId = firebaseUser.getUid();
-                            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("User DB");
-                            databaseReference.child(userId).child("Order Details").child("Completed").child(orderId).child("Food").child(mtitle).setValue(foodModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("User DB");
+//                            databaseReference.child(userId).child("Order Details").child("Completed").child(orderId).child("Food").child(mtitle).setValue(foodModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                @Override
+//                                public void onComplete(@NonNull Task<Void> task) {
+//                                    if (task.isSuccessful()) {
+//                                        Toast.makeText(CartActivity.this, "Your Order has been Placed Successfully", Toast.LENGTH_SHORT).show();
+//
+//                                        DatabaseReference deleteCart = FirebaseDatabase.getInstance().getReference("User DB");
+//                                        deleteCart.child(userId).child("Order Details").child("Cart").removeValue();
+//
+//                                    } else {
+//                                        Toast.makeText(CartActivity.this, " " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+//                                    }
+//                                }
+//                            });
+
+                            DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference("User DB");
+                            databaseReference2.child(userId).child("Order Details").child("Completed").child(orderId).setValue(orderDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
@@ -143,19 +152,6 @@ public class CartActivity extends AppCompatActivity {
 
                                         DatabaseReference deleteCart = FirebaseDatabase.getInstance().getReference("User DB");
                                         deleteCart.child(userId).child("Order Details").child("Cart").removeValue();
-
-                                    } else {
-                                        Toast.makeText(CartActivity.this, " " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-
-                            DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference("User DB");
-                            databaseReference2.child(userId).child("Order Details").child("Completed").child(orderId).setValue(orderDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-//                                    Toast.makeText(CartActivity.this, "Added to cart", Toast.LENGTH_SHORT).show();
 
                                     } else {
                                         Toast.makeText(CartActivity.this, " " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -170,24 +166,6 @@ public class CartActivity extends AppCompatActivity {
             }
         });
     }
-
-//    private void setData() {
-//        ArrayList<FoodModel> foodlist = cartAdapter.getData();
-//        int totalPrice = 0;
-//        int mdeliveryCharges = 0;
-//
-//        for (FoodModel product : foodlist) {
-//            totalPrice += product.getPrice() * product.getQty();
-//            mdeliveryCharges = product.getDeliveryCharges();
-//            Toast.makeText(CartActivity.this, "" + product.getFinalPrice(), Toast.LENGTH_SHORT).show();
-//
-//            itemTotalPrice.setText(String.valueOf(totalPrice));
-//            deliveryCharges.setText(String.valueOf(mdeliveryCharges));
-//            int mTotalCharges = totalPrice + mdeliveryCharges;
-//            totalCharges.setText(String.valueOf(mTotalCharges));
-//
-//        }
-//    }
 
     public void receiveDataFromAdapter(ArrayList<FoodModel> dataList) {
 
