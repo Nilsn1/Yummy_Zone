@@ -2,13 +2,14 @@ package com.nilscreation.yummyzone.Models;
 
 public class UserDetail {
 
-    String Userid, Username, Mobile, Email;
+    String Userid, Username, Mobile, Email, Address;
 
-    public UserDetail(String userid, String username, String mobile, String email) {
+    public UserDetail(String userid, String username, String mobile, String email, String address) {
         Userid = userid;
         Username = username;
         Mobile = mobile;
         Email = email;
+        Address = address;
     }
 
     public String getUserid() {
@@ -41,5 +42,13 @@ public class UserDetail {
 
     public void setEmail(String email) {
         Email = email;
+    }
+
+    public String getAddress() {
+        return Address;
+    }
+
+    public void setAddress(String address) {
+        Address = address;
     }
 }

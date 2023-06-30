@@ -2,63 +2,113 @@ package com.nilscreation.yummyzone;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AccountFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.nilscreation.yummyzone.Models.OrderDetails;
+import com.nilscreation.yummyzone.Models.UserDetail;
+
+import java.util.ArrayList;
+
 public class AccountFragment extends Fragment {
+    TextView email;
+    EditText username, mobile, address;
+    Button btnSave;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    FirebaseAuth auth = FirebaseAuth.getInstance();
+    FirebaseUser firebaseUser;
+    String userId, userName, userMobile, userEmail, usertAddress;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     public AccountFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AccountFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AccountFragment newInstance(String param1, String param2) {
-        AccountFragment fragment = new AccountFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_account, container, false);
+        View view = inflater.inflate(R.layout.fragment_account, container, false);
+
+        email = view.findViewById(R.id.email);
+        username = view.findViewById(R.id.username);
+        mobile = view.findViewById(R.id.mobile);
+        address = view.findViewById(R.id.address);
+        btnSave = view.findViewById(R.id.btnSave);
+
+        firebaseUser = auth.getCurrentUser();
+        if (firebaseUser != null) {
+            userId = firebaseUser.getUid();
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("User DB");
+            databaseReference.child(userId).child("User Details").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                    String Username = snapshot.child("username").getValue(String.class);
+                    String Mobile = snapshot.child("mobile").getValue(String.class);
+                    String Address = snapshot.child("address").getValue(String.class);
+                    String Email = snapshot.child("email").getValue(String.class);
+
+                    email.setText(Email);
+                    username.setText(Username);
+                    mobile.setText(Mobile);
+                    address.setText(Address);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                userName = username.getText().toString();
+                userMobile = mobile.getText().toString();
+                usertAddress = address.getText().toString();
+                userEmail = email.getText().toString();
+
+                UserDetail userDetail = new UserDetail(userId, userName, userMobile, userEmail, usertAddress);
+
+                firebaseUser = auth.getCurrentUser();
+                if (firebaseUser != null) {
+                    userId = firebaseUser.getUid();
+
+                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("User DB");
+                    databaseReference.child(userId).child("User Details").setValue(userDetail).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(getContext(), "Your Changes save Successfully", Toast.LENGTH_SHORT).show();
+
+                            } else {
+                                Toast.makeText(getContext(), "" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+
+        return view;
     }
 }

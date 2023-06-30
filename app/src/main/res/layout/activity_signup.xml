@@ -42,7 +42,7 @@
                 android:background="@drawable/custom_input"
                 android:fontFamily="@font/nunito_bold"
                 android:hint="Username"
-                android:inputType="text"/>
+                android:inputType="text" />
 
             <EditText
                 android:id="@+id/signupMobile"
@@ -75,14 +75,13 @@
                 android:inputType="textPassword" />
 
             <EditText
-                android:id="@+id/signupPassword2"
+                android:id="@+id/signupAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/custom_input"
                 android:fontFamily="@font/nunito_bold"
-                android:hint="Repeat Password"
-                android:inputType="textPassword" />
+                android:hint="Address" />
 
             <Button
                 android:id="@+id/btnSignup"

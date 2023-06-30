@@ -61,7 +61,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito_bold"
-                    android:text="Hii User,"
+                    android:text="Hello,"
                     android:textColor="@color/primary"
                     android:textSize="22sp"
                     android:textStyle="bold"

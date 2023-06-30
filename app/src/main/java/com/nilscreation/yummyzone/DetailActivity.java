@@ -87,7 +87,6 @@ public class DetailActivity extends AppCompatActivity {
 
                 finalprice = mprice * qtyNumber;
 
-//                orderId = (int) System.currentTimeMillis();
                 FoodModel foodModel = new FoodModel(mtitle, mCategory, mimageUrl, mprice, finalprice, mdeliveryCharges, qtyNumber);
 
                 FirebaseUser firebaseUser = auth.getCurrentUser();
@@ -98,7 +97,7 @@ public class DetailActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                Toast.makeText(DetailActivity.this, "added to cart", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(DetailActivity.this, "Your Food added to cart", Toast.LENGTH_SHORT).show();
 
                             } else {
                                 Toast.makeText(DetailActivity.this, " " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();

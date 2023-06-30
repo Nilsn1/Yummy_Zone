@@ -48,6 +48,7 @@
             app:tint="@color/text_primary" />
 
         <TextView
+            android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -67,6 +68,7 @@
             android:textSize="17sp" />
 
         <EditText
+            android:id="@+id/username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -85,6 +87,7 @@
             android:textSize="17sp" />
 
         <EditText
+            android:id="@+id/mobile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -103,16 +106,17 @@
             android:textSize="17sp" />
 
         <EditText
+            android:id="@+id/address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:background="@drawable/custom_input"
             android:fontFamily="@font/nunito_bold"
             android:hint="Address"
-            android:textColor="@color/text_primary"
             android:textSize="17sp" />
 
         <Button
+            android:id="@+id/btnSave"
             style="@style/custom_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

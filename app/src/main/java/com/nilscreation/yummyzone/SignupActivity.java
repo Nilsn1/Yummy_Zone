@@ -22,9 +22,9 @@ import com.nilscreation.yummyzone.Models.UserDetail;
 
 public class SignupActivity extends AppCompatActivity {
 
-    TextView signupUsername, signupEmail, signupMobile, signupPassword, signupPassword2, login;
+    TextView signupUsername, signupEmail, signupMobile, signupPassword, signupAddress, login;
     Button btnSignup;
-    String userName, userEmail, userPassword, userPassword2, userMobile;
+    String userName, userEmail, userPassword, userAddress, userMobile;
     FirebaseAuth auth = FirebaseAuth.getInstance();
 
     @Override
@@ -36,7 +36,7 @@ public class SignupActivity extends AppCompatActivity {
         signupEmail = findViewById(R.id.signupEmail);
         signupMobile = findViewById(R.id.signupMobile);
         signupPassword = findViewById(R.id.signupPassword);
-        signupPassword2 = findViewById(R.id.signupPassword2);
+        signupAddress = findViewById(R.id.signupAddress);
         login = findViewById(R.id.login);
         btnSignup = findViewById(R.id.btnSignup);
 
@@ -56,7 +56,7 @@ public class SignupActivity extends AppCompatActivity {
                 userMobile = signupMobile.getText().toString();
                 userEmail = signupEmail.getText().toString();
                 userPassword = signupPassword.getText().toString();
-                userPassword2 = signupPassword2.getText().toString();
+                userAddress = signupAddress.getText().toString();
 
                 if (userName.isEmpty()) {
                     signupUsername.setError("Email Required");
@@ -66,6 +66,8 @@ public class SignupActivity extends AppCompatActivity {
                     signupEmail.setError("Email Required");
                 } else if (userPassword.isEmpty()) {
                     signupPassword.setError("Password Required");
+                } else if (userAddress.isEmpty()) {
+                    signupAddress.setError("Address Required");
                 } else {
                     checkUser(userEmail);
                 }
@@ -111,7 +113,7 @@ public class SignupActivity extends AppCompatActivity {
                     String userId = firebaseUser.getUid();
 
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("User DB");
-                    UserDetail userDetail = new UserDetail(userId, userName, userMobile, userEmail);
+                    UserDetail userDetail = new UserDetail(userId, userName, userMobile, userEmail, userAddress);
                     databaseReference.child(userId).child("User Details").setValue(userDetail);
 
                     Intent intent = new Intent(SignupActivity.this, LoginActivity.class);

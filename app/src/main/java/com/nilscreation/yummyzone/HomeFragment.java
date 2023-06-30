@@ -57,11 +57,11 @@ public class HomeFragment extends Fragment {
 
             String userId = firebaseUser.getUid();
             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("User DB");
-            databaseReference.child(userId).child("User Details").child("username").addListenerForSingleValueEvent(new ValueEventListener() {
+            databaseReference.child(userId).child("User Details").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    String value = snapshot.getValue(String.class);
-                    wlcm.setText("Hello, " + value + "!");
+                    String username = snapshot.child("username").getValue(String.class);
+                    wlcm.setText("Hello, " + username + "!");
                 }
 
                 @Override

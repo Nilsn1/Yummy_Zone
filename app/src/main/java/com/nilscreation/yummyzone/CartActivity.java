@@ -83,6 +83,22 @@ public class CartActivity extends AppCompatActivity {
 
                 }
             });
+
+            DatabaseReference addressReference = FirebaseDatabase.getInstance().getReference("User DB");
+            addressReference.child(userId).child("User Details").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    String address = snapshot.child("address").getValue(String.class);
+                    txtAddress.setText(address);
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
         }
 
         btnAddress.setOnClickListener(new View.OnClickListener() {
