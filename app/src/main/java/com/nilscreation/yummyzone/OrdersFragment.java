@@ -47,7 +47,7 @@ public class OrdersFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         orderList = new ArrayList<>();
 
-        orderAdapter = new OrderAdapter(getContext(), orderList);
+        orderAdapter = new OrderAdapter(getContext(), orderList, getActivity());
         recyclerView.setAdapter(orderAdapter);
 
         FirebaseUser firebaseUser = auth.getCurrentUser();
