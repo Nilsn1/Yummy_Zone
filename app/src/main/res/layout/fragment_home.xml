@@ -81,15 +81,31 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <!--            <TextView-->
+            <!--                android:id="@+id/searchView"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="10dp"-->
+            <!--                android:background="@drawable/custom_input"-->
+            <!--                android:clickable="true"-->
+            <!--                android:drawableLeft="@drawable/ic_search"-->
+            <!--                android:drawablePadding="10dp"-->
+            <!--                android:fontFamily="@font/nunito_bold"-->
+            <!--                android:foreground="?attr/selectableItemBackground"-->
+            <!--                android:text="Search"-->
+            <!--                android:textSize="16sp"-->
+            <!--                app:layout_constraintTop_toBottomOf="@+id/toolbar" />-->
+
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/searchView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/custom_search"
                 android:focusable="false"
                 app:closeIcon="@drawable/ic_cancel"
                 app:iconifiedByDefault="false"
+                app:layout_constraintTop_toBottomOf="@+id/toolbar"
                 app:queryBackground="@android:color/transparent"
                 app:queryHint="Search..."
                 app:searchHintIcon="@null" />

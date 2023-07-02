@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -37,6 +39,8 @@ public class HomeFragment extends Fragment {
     FirebaseAuth auth = FirebaseAuth.getInstance();
     PopularAdapter popularAdapter;
 
+    SearchView searchview;
+
     public HomeFragment() {
     }
 
@@ -50,6 +54,34 @@ public class HomeFragment extends Fragment {
         recyclerviewCategory = view.findViewById(R.id.recyclerviewCategory);
         recyclerviewPopular = view.findViewById(R.id.recyclerviewPopular);
         wlcm = view.findViewById(R.id.wlcm);
+        searchview = view.findViewById(R.id.searchView);
+        searchview.clearFocus();
+
+        searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Intent intent = new Intent(getContext(), FoodListActivity.class);
+                intent.putExtra("Query", query);
+                startActivity(intent);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+//        search.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getContext(), FoodListActivity.class);
+//                String text = "All Items";
+//                intent.putExtra("Category", text);
+//                intent.putExtra("Query", text);
+//                startActivity(intent);
+//            }
+//        });
 
 
         FirebaseUser firebaseUser = auth.getCurrentUser();

@@ -3,6 +3,5 @@
 
     <solid android:color="@color/card_background" />
     <corners android:radius="15dp" />
-    
 
 </shape>
