@@ -37,7 +37,7 @@
         android:layout_above="@id/orderDetail"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="?attr/actionBarSize"
-        tools:listitem="@layout/cart_item" />
+        tools:listitem="@layout/order_detail" />
 
     <LinearLayout
         android:id="@+id/orderDetail"

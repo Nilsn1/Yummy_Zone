@@ -114,6 +114,8 @@ public class CartActivity extends AppCompatActivity {
 
                 String address = txtAddress.getText().toString();
 
+                OrderDetails orderDetails = null;
+
                 DateFormat df = new SimpleDateFormat("dd/MM/yyyy, HH:mm");
                 String date = df.format(Calendar.getInstance().getTime());
 
@@ -123,7 +125,6 @@ public class CartActivity extends AppCompatActivity {
 
                     int totalPrice = 0;
                     int orderPrice = 0;
-                    FoodModel foodModel;
                     String orderId = String.valueOf(System.currentTimeMillis());
 
                     for (FoodModel product : dataList) {
@@ -136,45 +137,29 @@ public class CartActivity extends AppCompatActivity {
                         mdeliveryCharges = product.getDeliveryCharges();
                         orderPrice = totalPrice + mdeliveryCharges;
 
-//                        foodModel = new FoodModel(mtitle, mimageUrl, mprice, mdeliveryCharges, qtyNumber);
+                        orderDetails = new OrderDetails(orderId, totalPrice, mdeliveryCharges, orderPrice, address, date, dataList);
 
-                        OrderDetails orderDetails = new OrderDetails(orderId, totalPrice, mdeliveryCharges, orderPrice, address, date, dataList);
+                    }
 
-                        FirebaseUser firebaseUser = auth.getCurrentUser();
-                        if (firebaseUser != null) {
-                            String userId = firebaseUser.getUid();
-//                            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("User DB");
-//                            databaseReference.child(userId).child("Order Details").child("Completed").child(orderId).child("Food").child(mtitle).setValue(foodModel).addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                @Override
-//                                public void onComplete(@NonNull Task<Void> task) {
-//                                    if (task.isSuccessful()) {
-//                                        Toast.makeText(CartActivity.this, "Your Order has been Placed Successfully", Toast.LENGTH_SHORT).show();
-//
-//                                        DatabaseReference deleteCart = FirebaseDatabase.getInstance().getReference("User DB");
-//                                        deleteCart.child(userId).child("Order Details").child("Cart").removeValue();
-//
-//                                    } else {
-//                                        Toast.makeText(CartActivity.this, " " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-//                                    }
-//                                }
-//                            });
+                    FirebaseUser firebaseUser = auth.getCurrentUser();
+                    if (firebaseUser != null) {
+                        String userId = firebaseUser.getUid();
 
-                            DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference("User DB");
-                            databaseReference2.child(userId).child("Order Details").child("Completed").child(orderId).setValue(orderDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        Toast.makeText(CartActivity.this, "Your Order has been Placed Successfully", Toast.LENGTH_SHORT).show();
+                        DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference("User DB");
+                        databaseReference2.child(userId).child("Order Details").child("Completed").child(orderId).setValue(orderDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+//                                    Toast.makeText(CartActivity.this, "Your Order has been Placed Successfully", Toast.LENGTH_SHORT).show();
 
-                                        DatabaseReference deleteCart = FirebaseDatabase.getInstance().getReference("User DB");
-                                        deleteCart.child(userId).child("Order Details").child("Cart").removeValue();
+                                    DatabaseReference deleteCart = FirebaseDatabase.getInstance().getReference("User DB");
+                                    deleteCart.child(userId).child("Order Details").child("Cart").removeValue();
 
-                                    } else {
-                                        Toast.makeText(CartActivity.this, " " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                                    }
+                                } else {
+                                    Toast.makeText(CartActivity.this, " " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                 }
-                            });
-                        }
+                            }
+                        });
                     }
 
                 }
@@ -202,13 +187,5 @@ public class CartActivity extends AppCompatActivity {
 
         }
     }
-
-//    public void totalPrice(int mItemTotalPrice, int mdeliveryCharges) {
-//
-//        itemTotalPrice.setText(String.valueOf(mItemTotalPrice));
-//        deliveryCharges.setText(String.valueOf(mdeliveryCharges));
-//        int mTotalCharges = mItemTotalPrice + mdeliveryCharges;
-//        totalCharges.setText(String.valueOf(mTotalCharges));
-//    }
 
 }
