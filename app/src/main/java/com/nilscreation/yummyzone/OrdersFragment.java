@@ -1,5 +1,6 @@
 package com.nilscreation.yummyzone;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,6 +37,9 @@ public class OrdersFragment extends Fragment {
 
     OrderAdapter orderAdapter;
 
+    LinearLayout emptyOrders;
+
+    Button btnAdd;
 
     public OrdersFragment() {
     }
@@ -42,6 +48,18 @@ public class OrdersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_orders, container, false);
+
+        emptyOrders = view.findViewById(R.id.emptyOrders);
+        btnAdd = view.findViewById(R.id.btnAdd);
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), FoodListActivity.class);
+                intent.putExtra("Query", "");
+                startActivity(intent);
+            }
+        });
 
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -61,14 +79,21 @@ public class OrdersFragment extends Fragment {
             databaseReference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-
                     orderList.clear();
-                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                        OrderDetails orderDetails = dataSnapshot.getValue(OrderDetails.class);
-                        orderList.add(orderDetails);
+
+                    // Check if the data exists
+                    if (snapshot.exists()) {
+
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            OrderDetails orderDetails = dataSnapshot.getValue(OrderDetails.class);
+                            orderList.add(orderDetails);
+                        }
+
+                        orderAdapter.notifyDataSetChanged();
+                    } else {
+                        emptyOrders.setVisibility(View.VISIBLE);
                     }
 
-                    orderAdapter.notifyDataSetChanged();
                 }
 
                 @Override

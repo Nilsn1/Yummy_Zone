@@ -5,10 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,10 +40,11 @@ public class CartActivity extends AppCompatActivity {
     ArrayList<FoodModel> cartlist;
     CartAdapter cartAdapter;
     FirebaseAuth auth = FirebaseAuth.getInstance();
-    Button checkout;
+    Button checkout, btnAdd;
     ArrayList<FoodModel> dataList;
     String mtitle, mimageUrl;
     int mprice, mdeliveryCharges, qtyNumber;
+    LinearLayout cartlayout, emptyCart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,18 @@ public class CartActivity extends AppCompatActivity {
         checkout = findViewById(R.id.checkout);
         txtAddress = findViewById(R.id.txtAddress);
         btnAddress = findViewById(R.id.btnAddress);
+        cartlayout = findViewById(R.id.cartlayout);
+        emptyCart = findViewById(R.id.emptyCart);
+        btnAdd = findViewById(R.id.btnAdd);
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CartActivity.this, FoodListActivity.class);
+                intent.putExtra("Query", "");
+                startActivity(intent);
+            }
+        });
 
         recyclerviewCart = findViewById(R.id.recyclerviewCart);
         recyclerviewCart.setLayoutManager(new LinearLayoutManager(this));
@@ -70,11 +85,22 @@ public class CartActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     cartlist.clear();
-                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                        FoodModel model = dataSnapshot.getValue(FoodModel.class);
-                        cartlist.add(model);
+
+                    // Check if the data exists
+                    if (snapshot.exists()) {
+                        cartlayout.setVisibility(View.VISIBLE);
+
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            FoodModel model = dataSnapshot.getValue(FoodModel.class);
+                            cartlist.add(model);
+                        }
+                        cartAdapter.notifyDataSetChanged();
+
+                    } else {
+
+                        emptyCart.setVisibility(View.VISIBLE);
+                        cartlayout.setVisibility(View.GONE);
                     }
-                    cartAdapter.notifyDataSetChanged();
 
                 }
 
@@ -104,6 +130,8 @@ public class CartActivity extends AppCompatActivity {
         btnAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                Toast.makeText(CartActivity.this, "Address", Toast.LENGTH_SHORT).show();
 
             }
         });
