@@ -29,6 +29,8 @@ public class OrderDetailActivity extends AppCompatActivity {
     RecyclerView recyclerviewCart;
     ArrayList<FoodModel> foodlist;
     FirebaseAuth auth = FirebaseAuth.getInstance();
+    OrderDetailAdapter adapter;
+    String OrderId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +46,11 @@ public class OrderDetailActivity extends AppCompatActivity {
         recyclerviewCart = findViewById(R.id.recyclerviewCart);
         recyclerviewCart.setLayoutManager(new LinearLayoutManager(this));
         foodlist = new ArrayList<>();
-        OrderDetailAdapter adapter = new OrderDetailAdapter(this, foodlist);
+        adapter = new OrderDetailAdapter(this, foodlist);
         recyclerviewCart.setAdapter(adapter);
 
         Bundle bundle = getIntent().getExtras();
-        String OrderId = bundle.getString("orderId");
+        OrderId = bundle.getString("orderId");
         String OrderTime = bundle.getString("orderTime");
         String OrderAddress = bundle.getString("orderAddress");
         int OrderItemtotal = bundle.getInt("itemTotal");
@@ -62,6 +64,15 @@ public class OrderDetailActivity extends AppCompatActivity {
         deliveryCharges.setText("" + OrderDelivery);
         totalCharges.setText("" + OrderPrice);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadData();
+    }
+
+    private void loadData() {
         FirebaseUser firebaseUser = auth.getCurrentUser();
         if (firebaseUser != null) {
             String userId = firebaseUser.getUid();
@@ -87,6 +98,5 @@ public class OrderDetailActivity extends AppCompatActivity {
                 }
             });
         }
-
     }
 }

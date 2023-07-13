@@ -40,10 +40,10 @@ public class CartActivity extends AppCompatActivity {
     ArrayList<FoodModel> cartlist;
     CartAdapter cartAdapter;
     FirebaseAuth auth = FirebaseAuth.getInstance();
-    Button checkout, btnAdd;
+    Button checkout, btnAddNow;
     ArrayList<FoodModel> dataList;
-    String mtitle, mimageUrl;
-    int mprice, mdeliveryCharges, qtyNumber;
+    String mtitle, mCategory, mimageUrl;
+    int mprice, singleItemTotalPrice, mdeliveryCharges, qtyNumber;
     LinearLayout cartlayout, emptyCart;
 
     @Override
@@ -59,14 +59,15 @@ public class CartActivity extends AppCompatActivity {
         btnAddress = findViewById(R.id.btnAddress);
         cartlayout = findViewById(R.id.cartlayout);
         emptyCart = findViewById(R.id.emptyCart);
-        btnAdd = findViewById(R.id.btnAdd);
+        btnAddNow = findViewById(R.id.btnAdd);
 
-        btnAdd.setOnClickListener(new View.OnClickListener() {
+        btnAddNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CartActivity.this, FoodListActivity.class);
                 intent.putExtra("Query", "");
                 startActivity(intent);
+//                finish();
             }
         });
 
@@ -76,56 +77,6 @@ public class CartActivity extends AppCompatActivity {
 
         cartAdapter = new CartAdapter(CartActivity.this, cartlist);
         recyclerviewCart.setAdapter(cartAdapter);
-
-        FirebaseUser firebaseUser = auth.getCurrentUser();
-        if (firebaseUser != null) {
-            String userId = firebaseUser.getUid();
-            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("User DB");
-            databaseReference.child(userId).child("Order Details").child("Cart").addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    cartlist.clear();
-
-                    // Check if the data exists
-                    if (snapshot.exists()) {
-                        cartlayout.setVisibility(View.VISIBLE);
-
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            FoodModel model = dataSnapshot.getValue(FoodModel.class);
-                            cartlist.add(model);
-                        }
-                        cartAdapter.notifyDataSetChanged();
-
-                    } else {
-
-                        emptyCart.setVisibility(View.VISIBLE);
-                        cartlayout.setVisibility(View.GONE);
-                    }
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-
-            DatabaseReference addressReference = FirebaseDatabase.getInstance().getReference("User DB");
-            addressReference.child(userId).child("User Details").addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    String address = snapshot.child("address").getValue(String.class);
-                    txtAddress.setText(address);
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-
-        }
 
         btnAddress.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,6 +94,7 @@ public class CartActivity extends AppCompatActivity {
                 String address = txtAddress.getText().toString();
 
                 OrderDetails orderDetails = null;
+                ArrayList<FoodModel> myDatalist = new ArrayList<>();
 
                 DateFormat df = new SimpleDateFormat("dd/MM/yyyy, HH:mm");
                 String date = df.format(Calendar.getInstance().getTime());
@@ -157,15 +109,20 @@ public class CartActivity extends AppCompatActivity {
 
                     for (FoodModel product : dataList) {
                         mtitle = product.getTitle();
-                        mprice = product.getPrice();
+                        mCategory = product.getCategory();
                         mimageUrl = product.getImageUrl();
+                        mprice = product.getPrice();
+                        mdeliveryCharges = product.getDeliveryCharges();
                         qtyNumber = product.getQty();
+                        singleItemTotalPrice = mprice * qtyNumber;
+//                        Toast.makeText(CartActivity.this, "" + singleItemTotalPrice, Toast.LENGTH_SHORT).show();
 
                         totalPrice += product.getPrice() * product.getQty();
-                        mdeliveryCharges = product.getDeliveryCharges();
                         orderPrice = totalPrice + mdeliveryCharges;
 
-                        orderDetails = new OrderDetails(orderId, totalPrice, mdeliveryCharges, orderPrice, address, date, dataList);
+                        myDatalist.add(new FoodModel(mtitle, mCategory, mimageUrl, mprice, singleItemTotalPrice, mdeliveryCharges, qtyNumber));
+
+                        orderDetails = new OrderDetails(orderId, totalPrice, mdeliveryCharges, orderPrice, address, date, myDatalist);
 
                     }
 
@@ -206,7 +163,6 @@ public class CartActivity extends AppCompatActivity {
         for (FoodModel product : dataList) {
             totalPrice += product.getPrice() * product.getQty();
             mdeliveryCharges = product.getDeliveryCharges();
-//            Toast.makeText(CartActivity.this, "" + product.getPrice(), Toast.LENGTH_SHORT).show();
 
             itemTotalPrice.setText(String.valueOf(totalPrice));
             deliveryCharges.setText(String.valueOf(mdeliveryCharges));
@@ -216,4 +172,62 @@ public class CartActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadData();
+    }
+
+    public void loadData() {
+        FirebaseUser firebaseUser = auth.getCurrentUser();
+        if (firebaseUser != null) {
+            String userId = firebaseUser.getUid();
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("User DB");
+            databaseReference.child(userId).child("Order Details").child("Cart").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    cartlist.clear();
+
+                    // Check if the data exists
+                    if (snapshot.exists()) {
+                        cartlayout.setVisibility(View.VISIBLE);
+                        emptyCart.setVisibility(View.GONE);
+
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            FoodModel model = dataSnapshot.getValue(FoodModel.class);
+                            cartlist.add(model);
+                        }
+                        cartAdapter.notifyDataSetChanged();
+
+                    } else {
+
+                        emptyCart.setVisibility(View.VISIBLE);
+                        cartlayout.setVisibility(View.GONE);
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+            DatabaseReference addressReference = FirebaseDatabase.getInstance().getReference("User DB");
+            addressReference.child(userId).child("User Details").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    String address = snapshot.child("address").getValue(String.class);
+                    txtAddress.setText(address);
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+        }
+    }
 }
