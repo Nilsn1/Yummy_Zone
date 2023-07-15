@@ -42,8 +42,8 @@
                 android:background="@drawable/custom_input"
                 android:fontFamily="@font/nunito_bold"
                 android:hint="Email"
-                android:text="nileshsonawanen1@gmail.com"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"
+                android:text="nileshsonawanen1@gmail.com" />
 
             <EditText
                 android:id="@+id/loginPassword"
@@ -53,8 +53,8 @@
                 android:background="@drawable/custom_input"
                 android:fontFamily="@font/nunito_bold"
                 android:hint="Password"
-                android:text="nilesh"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:text="nilesh" />
 
             <Button
                 android:id="@+id/login"

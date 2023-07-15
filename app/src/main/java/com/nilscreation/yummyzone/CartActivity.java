@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -82,7 +84,8 @@ public class CartActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Toast.makeText(CartActivity.this, "Address", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CartActivity.this, "Getting Your Address", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(CartActivity.this, MapsActivity.class));
 
             }
         });
@@ -136,6 +139,18 @@ public class CartActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
 //                                    Toast.makeText(CartActivity.this, "Your Order has been Placed Successfully", Toast.LENGTH_SHORT).show();
+
+                                    Dialog dialog = new Dialog(CartActivity.this);
+                                    dialog.setContentView(R.layout.order_successful);
+                                    dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                                    Button btn = dialog.findViewById(R.id.btn);
+                                    btn.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+                                    dialog.show();
 
                                     DatabaseReference deleteCart = FirebaseDatabase.getInstance().getReference("User DB");
                                     deleteCart.child(userId).child("Order Details").child("Cart").removeValue();
