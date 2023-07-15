@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -143,6 +145,11 @@ public class CartActivity extends AppCompatActivity {
                                     Dialog dialog = new Dialog(CartActivity.this);
                                     dialog.setContentView(R.layout.order_successful);
                                     dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+                                    ImageView imageView = dialog.findViewById(R.id.imageView);
+                                    Animation alpha = AnimationUtils.loadAnimation(CartActivity.this, R.anim.alpha);
+                                    imageView.startAnimation(alpha);
+
                                     Button btn = dialog.findViewById(R.id.btn);
                                     btn.setOnClickListener(new View.OnClickListener() {
                                         @Override
