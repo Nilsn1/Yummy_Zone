@@ -1,5 +1,6 @@
 package com.nilscreation.yummyzone;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +30,8 @@ import com.nilscreation.yummyzone.Models.UserDetail;
 import java.util.ArrayList;
 
 public class AccountFragment extends Fragment {
+
+    ImageView userImage;
     TextView email;
     EditText username, mobile, address;
     Button btnSave;
@@ -45,6 +49,13 @@ public class AccountFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_account, container, false);
 
+        userImage = view.findViewById(R.id.userImage);
+        userImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), AccountActivity.class));
+            }
+        });
         email = view.findViewById(R.id.email);
         username = view.findViewById(R.id.username);
         mobile = view.findViewById(R.id.mobile);
