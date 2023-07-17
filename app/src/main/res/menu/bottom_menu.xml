@@ -12,10 +12,10 @@
         android:icon="@drawable/ic_order"
         android:title="My Orders" />
 
-<!--    <item-->
-<!--        android:id="@+id/feedback"-->
-<!--        android:icon="@drawable/ic_contact"-->
-<!--        android:title="Feedback" />-->
+    <item
+        android:id="@+id/support"
+        android:icon="@drawable/ic_contact"
+        android:title="Support" />
 
     <item
         android:id="@+id/account"

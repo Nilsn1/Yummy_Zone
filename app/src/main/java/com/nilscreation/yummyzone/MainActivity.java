@@ -67,13 +67,11 @@ public class MainActivity extends AppCompatActivity {
                 int id = item.getItemId();
 
                 if (id == R.id.home) {
-
                     loadFragment(new HomeFragment());
-
                 } else if (id == R.id.orders) {
-
                     loadFragment(new OrdersFragment());
-
+                } else if (id == R.id.support) {
+                    loadFragment(new ContactFragment());
                 } else {
                     loadFragment(new AccountFragment());
                 }
