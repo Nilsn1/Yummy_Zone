@@ -84,6 +84,8 @@ public class OrdersFragment extends Fragment {
                     // Check if the data exists
                     if (snapshot.exists()) {
 
+                        emptyOrders.setVisibility(View.GONE);
+
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             OrderDetails orderDetails = dataSnapshot.getValue(OrderDetails.class);
                             orderList.add(orderDetails);

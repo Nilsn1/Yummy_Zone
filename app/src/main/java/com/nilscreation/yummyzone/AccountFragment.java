@@ -50,12 +50,13 @@ public class AccountFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_account, container, false);
 
         userImage = view.findViewById(R.id.userImage);
-        userImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getContext(), AccountActivity.class));
-            }
-        });
+//        userImage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startActivity(new Intent(getContext(), AccountActivity.class));
+//            }
+//        });
+
         email = view.findViewById(R.id.email);
         username = view.findViewById(R.id.username);
         mobile = view.findViewById(R.id.mobile);

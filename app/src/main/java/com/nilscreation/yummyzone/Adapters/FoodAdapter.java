@@ -45,7 +45,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
         holder.title.setText(food.getTitle());
         holder.description.setText(food.getDescription());
         holder.price.setText(String.valueOf(food.getPrice()));
-        Glide.with(context).load(food.getImageUrl()).into(holder.productImg);
+        Glide.with(context).load(food.getImageUrl()).placeholder(R.drawable.progress_bar).into(holder.productImg);
 
         holder.foodlayout.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -48,7 +48,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
         FoodModel food = cartlist.get(position);
 
-        Glide.with(context).load(food.getImageUrl()).into(holder.cartImg);
+        Glide.with(context).load(food.getImageUrl()).placeholder(R.drawable.progress_bar).into(holder.cartImg);
         holder.cartTitle.setText(food.getTitle());
         holder.cartQty.setText(String.valueOf(food.getQty()));
         holder.cartfoodPrice.setText(String.valueOf(food.getFinalPrice()));

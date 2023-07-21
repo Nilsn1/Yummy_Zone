@@ -45,7 +45,7 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHold
 
         holder.title.setText(food.getTitle());
         holder.price.setText(String.valueOf(food.getPrice()));
-        Glide.with(context).load(food.getImageUrl()).into(holder.imageView);
+        Glide.with(context).load(food.getImageUrl()).placeholder(R.drawable.progress_bar).into(holder.imageView);
 
         holder.cardBack.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -38,7 +38,7 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
 
         FoodModel food = foodlist.get(position);
 
-        Glide.with(context).load(food.getImageUrl()).into(holder.orderImg);
+        Glide.with(context).load(food.getImageUrl()).placeholder(R.drawable.progress_bar).into(holder.orderImg);
         holder.orderTitle.setText(food.getTitle());
         holder.orderQty.setText(food.getQty() + " Qty");
         holder.orderSinglePrice.setText(String.valueOf(food.getPrice()));
