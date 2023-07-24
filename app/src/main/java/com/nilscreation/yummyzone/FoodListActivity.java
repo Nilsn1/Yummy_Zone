@@ -60,22 +60,31 @@ public class FoodListActivity extends AppCompatActivity {
                     String category = foodModel.getCategory();
 
                     Intent intent = getIntent();
-//                    String Category = intent.getStringExtra("Category");
+                    String Category = intent.getStringExtra("Category");
                     String Query = intent.getStringExtra("Query");
+
 //                    categoryTitle.setText(Category);
+//                    foodlist.add(foodModel);
+//                    filterData(Query);
+//                    searchView.setQuery(Query, true);
 
-                    foodlist.add(foodModel);
-                    filterData(Query);
-                    searchView.setQuery(Query, true);
+                    if (Query != null) {
+                        foodlist.add(foodModel);
+                        filterData(Query);
+                        searchView.setQuery(Query, true);
 
-//                    if (Category.equals(category)) {
-//                        foodlist.add(foodModel);
-//                    } else if (Category.equals("All Items")) {
-//                        foodlist.add(foodModel);
-//                        filterData(Query);
-//                        searchView.setQuery(Query, true);
-////                        Toast.makeText(FoodListActivity.this, "trigger", Toast.LENGTH_SHORT).show();
-//                    }
+//                        if (foodModel.getTitle().toLowerCase().contains(Query)) {
+//                            foodlist.add(foodModel);
+//                            filterData(Query);
+//                            searchView.setQuery(Query, true);
+//                        }
+                    } else if (Category != null) {
+                        if (Category.equals(category)) {
+                            foodlist.add(foodModel);
+                            categoryTitle.setText(Category);
+                        }
+                    }
+
                 }
                 adapter.notifyDataSetChanged();
             }
