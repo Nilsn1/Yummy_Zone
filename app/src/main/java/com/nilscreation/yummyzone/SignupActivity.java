@@ -5,8 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,7 +27,12 @@ import com.nilscreation.yummyzone.Models.UserDetail;
 
 public class SignupActivity extends AppCompatActivity {
 
-    TextView signupUsername, signupEmail, signupMobile, signupPassword, signupAddress, login;
+    EditText signupUsername, signupEmail, signupMobile, signupPassword, signupAddress;
+
+    ImageView showPassword;
+
+    boolean showhidePassword = false;
+    TextView login;
     Button btnSignup;
     String userName, userEmail, userPassword, userAddress, userMobile;
     FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -36,9 +46,27 @@ public class SignupActivity extends AppCompatActivity {
         signupEmail = findViewById(R.id.signupEmail);
         signupMobile = findViewById(R.id.signupMobile);
         signupPassword = findViewById(R.id.signupPassword);
+        showPassword = findViewById(R.id.showPassword);
         signupAddress = findViewById(R.id.signupAddress);
         login = findViewById(R.id.login);
         btnSignup = findViewById(R.id.btnSignup);
+
+        showPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (showhidePassword) {
+                    signupPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    showPassword.setImageResource(R.drawable.ic_show);
+                } else {
+                    signupPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    showPassword.setImageResource(R.drawable.ic_hide);
+                }
+                showhidePassword = !showhidePassword;
+
+                signupPassword.setSelection(signupPassword.getText().toString().length());
+            }
+        });
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,9 +89,13 @@ public class SignupActivity extends AppCompatActivity {
                 if (userName.isEmpty()) {
                     signupUsername.setError("Email Required");
                 } else if (userMobile.isEmpty()) {
-                    signupMobile.setError("Mobile Required");
+                    signupMobile.setError("Mobile no. Required");
+                } else if (userMobile.length() < 10) {
+                    signupMobile.setError("Mob no. must be 10 digits");
                 } else if (userEmail.isEmpty()) {
                     signupEmail.setError("Email Required");
+                } else if (!Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()) {
+                    signupEmail.setError("Invalid Email Address");
                 } else if (userPassword.isEmpty()) {
                     signupPassword.setError("Password Required");
                 } else if (userAddress.isEmpty()) {
@@ -76,27 +108,23 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private void checkUser(String userEmail) {
-        if (userEmail.isEmpty()) {
-            signupEmail.setError("Email Required");
-        } else {
-            auth.fetchSignInMethodsForEmail(userEmail).addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
-                @Override
-                public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
+        auth.fetchSignInMethodsForEmail(userEmail).addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
+            @Override
+            public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
 
-                    if (task.isSuccessful()) {
-                        boolean noUser = task.getResult().getSignInMethods().isEmpty();
-                        if (noUser) {
-                            signupNewUser();
-                        } else {
-                            Toast.makeText(SignupActivity.this, "Email is already Registered Please try another one", Toast.LENGTH_SHORT).show();
-                        }
+                if (task.isSuccessful()) {
+                    boolean noUser = task.getResult().getSignInMethods().isEmpty();
+                    if (noUser) {
+                        signupNewUser();
                     } else {
-                        Toast.makeText(SignupActivity.this, " " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignupActivity.this, "Email is already Registered Please try another one", Toast.LENGTH_SHORT).show();
                     }
-
+                } else {
+                    Toast.makeText(SignupActivity.this, " " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                 }
-            });
-        }
+
+            }
+        });
     }
 
     private void signupNewUser() {

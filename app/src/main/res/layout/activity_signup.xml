@@ -49,9 +49,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/custom_input"
+                android:digits="1234567890"
                 android:fontFamily="@font/nunito_bold"
                 android:hint="Mobile no."
-                android:inputType="phone" />
+                android:inputType="phone"
+                android:maxLength="10" />
 
             <EditText
                 android:id="@+id/signupEmail"
@@ -63,15 +65,34 @@
                 android:hint="Email"
                 android:inputType="textEmailAddress" />
 
-            <EditText
-                android:id="@+id/signupPassword"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/custom_input"
-                android:fontFamily="@font/nunito_bold"
-                android:hint="Password"
-                android:inputType="textPassword" />
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/signupPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/custom_input"
+                    android:fontFamily="@font/nunito_bold"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:padding="0dp" />
+
+                <ImageView
+                    android:id="@+id/showPassword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="5dp"
+                    android:clickable="true"
+                    android:src="@drawable/ic_show" />
+
+            </LinearLayout>
 
             <EditText
                 android:id="@+id/signupAddress"
