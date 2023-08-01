@@ -85,8 +85,7 @@ public class CartActivity extends AppCompatActivity {
         btnAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Toast.makeText(CartActivity.this, "Getting Your Address", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(CartActivity.this, "Getting Your Address", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(CartActivity.this, MapsActivity.class));
 
             }
@@ -178,21 +177,20 @@ public class CartActivity extends AppCompatActivity {
     public void receiveDataFromAdapter(ArrayList<FoodModel> dataList) {
 
         int totalPrice = 0;
-        int orderPrice;
 
         this.dataList = dataList;
 
         for (FoodModel product : dataList) {
             totalPrice += product.getPrice() * product.getQty();
             mdeliveryCharges = product.getDeliveryCharges();
-
-            itemTotalPrice.setText(String.valueOf(totalPrice));
-            deliveryCharges.setText(String.valueOf(mdeliveryCharges));
-            orderPrice = totalPrice + mdeliveryCharges;
-            totalCharges.setText(String.valueOf(orderPrice));
-
         }
+        int orderPrice = totalPrice + mdeliveryCharges;
+
+        itemTotalPrice.setText("₹ " + totalPrice);
+        deliveryCharges.setText("₹ " + mdeliveryCharges);
+        totalCharges.setText("₹ " + orderPrice);
     }
+
 
     @Override
     protected void onResume() {
