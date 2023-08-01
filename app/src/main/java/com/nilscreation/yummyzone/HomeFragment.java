@@ -63,6 +63,7 @@ public class HomeFragment extends Fragment {
                 Intent intent = new Intent(getContext(), FoodListActivity.class);
                 intent.putExtra("Query", query);
                 startActivity(intent);
+                searchview.clearFocus();
                 return false;
             }
 
@@ -140,5 +141,11 @@ public class HomeFragment extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        searchview.setQuery("", false);
     }
 }

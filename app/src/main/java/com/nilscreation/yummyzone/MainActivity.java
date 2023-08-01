@@ -91,7 +91,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         AlertDialog.Builder exitdialog = new AlertDialog.Builder(this);
-        exitdialog.setTitle("Exit").setIcon(R.drawable.ic_info).setMessage("Do you really want to exit?");
+        exitdialog.setTitle("Exit")
+                .setMessage("Do you really want to exit?");
         exitdialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
